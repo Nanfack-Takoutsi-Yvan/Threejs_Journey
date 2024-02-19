@@ -1,4 +1,5 @@
 import "./style.css"
+import gsap from "gsap"
 import {
   Scene,
   TorusGeometry,
@@ -6,8 +7,9 @@ import {
   PerspectiveCamera,
   WebGLRenderer,
   Mesh,
-  AxisHelper,
-  Group
+  AxesHelper,
+  Group,
+  Clock
 } from "three"
 
 // Scene
@@ -15,12 +17,11 @@ const scene = new Scene()
 
 // Cube Geometry
 const geometry = new TorusGeometry( 10, 3, 16, 100)
-const material = new MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+const material = new MeshBasicMaterial({ color: 0xff00ff, wireframe: true })
 const torus = new Mesh(geometry, material)
-torus.rotation.set(1, 0.5, 0.2)
 
 // Axies helpers
-const axiesHelpers = new AxisHelper(500)
+const axiesHelpers = new AxesHelper(500)
 scene.add(axiesHelpers)
 
 // Sizes
@@ -36,8 +37,7 @@ scene.add(torusGroup)
 
 // // Camera
 const camera = new PerspectiveCamera(75, sizes.width/sizes.height)
-camera.position.z = 40
-camera.rotation.reorder("YXZ")
+camera.position.set(40, 40, 40)
 scene.add(camera)
 
 camera.lookAt(torus.position)
@@ -49,4 +49,15 @@ const renderer = new WebGLRenderer({
 })
 
 renderer.setSize(sizes.width, sizes.height)
-renderer.render(scene, camera)
+
+// Annimation
+let time = new Clock()
+const spin = () => {
+  const elapsedTime = time.getElapsedTime()
+  torusGroup.rotation.y = Math.cos(elapsedTime)
+  torusGroup.rotation.x = Math.sin(elapsedTime)
+  renderer.render(scene, camera)
+  window.requestAnimationFrame(spin)
+}
+
+spin()
