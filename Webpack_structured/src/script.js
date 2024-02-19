@@ -34,14 +34,26 @@ const material = new MeshBasicMaterial({ color: 0xff00ff, wireframe: true })
 const torus = new Mesh(geometry, material)
 
 // Axies helpers
-const axiesHelpers = new AxesHelper(500)
+const axiesHelpers = new AxesHelper(5000)
 scene.add(axiesHelpers)
 
 // Sizes
 const sizes = {
-  height: window.visualViewport.height,
-  width: window.visualViewport.width
+  height: window.innerHeight,
+  width: window.innerWidth
 }
+
+window.addEventListener("resize", (event) => {
+  sizes.height = window.innerHeight
+  sizes.width = window.innerWidth
+
+  // Update camera
+  camera.aspect = sizes.width/sizes.height
+  camera.updateProjectionMatrix()
+
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height)
+})
 
 // Group Torus
 const torusGroup = new Group()
@@ -65,6 +77,7 @@ const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
 
 renderer.setSize(sizes.width, sizes.height)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 // Annimation
 let time = new Clock()
@@ -84,3 +97,18 @@ const spin = () => {
 }
 
 spin()
+
+window.addEventListener("dblclick", () => {
+  const fullScreenElement = document.fullscreenElement || document.webkitfullscreenElement
+  if(fullScreenElement) {
+    if (document.exitFullscreen)
+      document.exitFullscreen()
+    else if (document.webkitexitFullscreen)
+      document.webkitexitFullscreen()
+  } else {
+    if(canvas.requestFullscreen)
+      canvas.requestFullscreen()
+    else if (canvas.webkitrequestFullscreen)
+      canvas.webkitrequestFullscreen()
+  }
+})
