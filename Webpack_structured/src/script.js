@@ -48,11 +48,10 @@ const torusGroup = new Group()
 torusGroup.add(torus)
 scene.add(torusGroup)
 
-// // Camera
+// Camera
 const camera = new PerspectiveCamera(45, sizes.width/sizes.height)
 camera.position.z = -60
 scene.add(camera)
-
 camera.lookAt(torus.position)
 
 // Render
@@ -61,14 +60,21 @@ const renderer = new WebGLRenderer({
   canvas
 })
 
+// Controls
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+
 renderer.setSize(sizes.width, sizes.height)
 
 // Annimation
 let time = new Clock()
 const spin = () => {
-  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 60
-  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 60
-  camera.position.y = cursor.y * 50
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 60
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 60
+  // camera.position.y = cursor.y * 50
+
+  // Update controls
+  controls.update()
 
   camera.lookAt(torusGroup.position)
   const elapsedTime = time.getElapsedTime()
