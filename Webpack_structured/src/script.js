@@ -1,17 +1,27 @@
 import "./style.css"
-import * as THREE from "three"
+import {
+  Scene,
+  TorusGeometry,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  WebGLRenderer,
+  Mesh,
+  AxisHelper,
+  Group
+} from "three"
 
 // Scene
-const scene = new THREE.Scene()
+const scene = new Scene()
 
 // Cube Geometry
-const geometry = new THREE.TorusGeometry( 10, 3, 16, 100)
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
-const torus = new THREE.Mesh(geometry, material)
-torus.rotation.x = 1
-torus.rotation.y = 0.5
-torus.rotation.z = 0.2
-scene.add(torus)
+const geometry = new TorusGeometry( 10, 3, 16, 100)
+const material = new MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+const torus = new Mesh(geometry, material)
+torus.rotation.set(1, 0.5, 0.2)
+
+// Axies helpers
+const axiesHelpers = new AxisHelper(500)
+scene.add(axiesHelpers)
 
 // Sizes
 const sizes = {
@@ -19,14 +29,22 @@ const sizes = {
   width: window.visualViewport.width
 }
 
+// Group Torus
+const torusGroup = new Group()
+torusGroup.add(torus)
+scene.add(torusGroup)
+
 // // Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width/sizes.height)
-camera.position.z = 50
+const camera = new PerspectiveCamera(75, sizes.width/sizes.height)
+camera.position.z = 40
+camera.rotation.reorder("YXZ")
 scene.add(camera)
+
+camera.lookAt(torus.position)
 
 // Render
 const canvas = document.querySelector("#webgl")
-const renderer = new THREE.WebGLRenderer({
+const renderer = new WebGLRenderer({
   canvas
 })
 
