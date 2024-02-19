@@ -49,13 +49,14 @@ const renderer = new WebGLRenderer({
 })
 
 renderer.setSize(sizes.width, sizes.height)
+gsap.to(torus.position, { duration: 2, delay: 1, x: 100, y: 50 })
+gsap.to(torus.position, { duration: 2, delay: 2, x: 0, y: 0 })
 
 // Annimation
 let time = new Clock()
 const spin = () => {
   const elapsedTime = time.getElapsedTime()
-  torusGroup.rotation.y = Math.cos(elapsedTime)
-  torusGroup.rotation.x = Math.sin(elapsedTime)
+  torusGroup.rotation.z += 0.009 * elapsedTime
   renderer.render(scene, camera)
   window.requestAnimationFrame(spin)
 }
