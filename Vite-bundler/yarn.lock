@@ -182,6 +182,11 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.12.0.tgz#9ffdf9ed133a7464f4ae187eb9e1294413fab235"
   integrity sha512-ZYmr5mS2wd4Dew/JjT0Fqi2NPB/ZhZ2VvPp7SmvPZb4Y1CG/LRcS6tcRo2cYU7zLK5A7cdbhWnnWmUjoI4qapg==
 
+"@types/dat.gui@^0.7.12":
+  version "0.7.12"
+  resolved "https://registry.yarnpkg.com/@types/dat.gui/-/dat.gui-0.7.12.tgz#fb7e725011f46e77d72e4f126b6a43df62a255fb"
+  integrity sha512-el5dYeQZu2r6YW6Ft4rGtjr/dLe/uzXESMoie5UM6/weVShB1V8IRpXtTKrczd4qe7044fTKZS2l8d6EBFOkoA==
+
 "@types/estree@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
@@ -206,6 +211,11 @@
   version "0.5.14"
   resolved "https://registry.yarnpkg.com/@types/webxr/-/webxr-0.5.14.tgz#9a03121a4912ea113b31e5c9c17f164d4fff8a1f"
   integrity sha512-UEMMm/Xn3DtEa+gpzUrOcDj+SJS1tk5YodjwOxcqStNhCfPcwgyC5Srg2ToVKyg2Fhq16Ffpb0UWUQHqoT9AMA==
+
+dat.gui@^0.7.9:
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/dat.gui/-/dat.gui-0.7.9.tgz#860cab06053b028e327820eabdf25a13cf07b17e"
+  integrity sha512-sCNc1OHobc+Erc1HqiswYgHdVNpSJUlk/Hz8vzOCsER7rl+oF/4+v8GXFUyCgtXpoCX6+bnmg07DedLvBLwYKQ==
 
 esbuild@^0.19.3:
   version "0.19.12"
@@ -250,6 +260,11 @@ gsap@^3.12.5:
   version "3.12.5"
   resolved "https://registry.yarnpkg.com/gsap/-/gsap-3.12.5.tgz#136c02dad4c673b441bdb1ca00104bfcb4eae7f4"
   integrity sha512-srBfnk4n+Oe/ZnMIOXt3gT605BX9x5+rh/prT2F1SsNJsU1XuMiP0E2aptW481OnonOGACZWBqseH5Z7csHxhQ==
+
+lil-gui@^0.19.1:
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/lil-gui/-/lil-gui-0.19.1.tgz#5fb8fdb420afbf4d8fc7cbd0357a775e5dd9a484"
+  integrity sha512-9dbIg+UxS8RIROI6OH5gV2KrVE0Cn37bcLOQGF2GKN8ibTxDrUSLzzZfkQR82LnZsgs7DEZOOGfn3zhtd6hk0Q==
 
 meshoptimizer@~0.18.1:
   version "0.18.1"
