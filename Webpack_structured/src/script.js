@@ -4,13 +4,15 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import {
   Scene,
   TorusGeometry,
-  MeshBasicMaterial,
+  MeshPhongMaterial,
   PerspectiveCamera,
   WebGLRenderer,
   Mesh,
   AxesHelper,
   Group,
-  Clock
+  Clock,
+  DirectionalLight,
+  MeshBasicMaterial
 } from "three"
 
 /**
@@ -28,9 +30,9 @@ window.addEventListener("mousemove", (event) => {
 // Scene
 const scene = new Scene()
 
-// Cube Geometry
+// Torus Geometry
 const geometry = new TorusGeometry( 10, 3, 16, 40)
-const material = new MeshBasicMaterial({ color: 0xff00ff, wireframe: true })
+const material = new MeshPhongMaterial({ color: 0xff00ff, wireframe: true })
 const torus = new Mesh(geometry, material)
 
 // Axies helpers
@@ -60,8 +62,15 @@ const torusGroup = new Group()
 torusGroup.add(torus)
 scene.add(torusGroup)
 
+// Light
+const color = 0xFFFFFF;
+const intensity = 3;
+const light = new DirectionalLight(color, intensity);
+light.position.set(0, 80, 80);
+scene.add(light);
+
 // Camera
-const camera = new PerspectiveCamera(45, sizes.width/sizes.height)
+const camera = new PerspectiveCamera(45, sizes.width/sizes.height, 0.1, 500)
 camera.position.z = -60
 scene.add(camera)
 camera.lookAt(torus.position)
@@ -69,7 +78,8 @@ camera.lookAt(torus.position)
 // Render
 const canvas = document.querySelector("#webgl")
 const renderer = new WebGLRenderer({
-  canvas
+  canvas,
+  antialias: true
 })
 
 // Controls
@@ -78,6 +88,7 @@ controls.enableDamping = true
 
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
 
 // Annimation
 let time = new Clock()
@@ -92,6 +103,7 @@ const spin = () => {
   camera.lookAt(torusGroup.position)
   const elapsedTime = time.getElapsedTime()
   torusGroup.rotation.z += 0.0001 * elapsedTime
+  torusGroup.rotation.y += 0.0001 * elapsedTime
   renderer.render(scene, camera)
   window.requestAnimationFrame(spin)
 }
