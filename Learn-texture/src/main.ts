@@ -1,24 +1,50 @@
+import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import * as three from "three"
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// Responsiveness
+const SIZES = {
+  width: window.visualViewport?.width,
+  height: window.visualViewport?.height
+}
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+window.addEventListener("resize", () => {
+  SIZES.width = window.visualViewport?.width
+  SIZES.height = window.visualViewport?.height
+  perspectiveCam.aspect = SIZES.width!/SIZES.height!
+  perspectiveCam.updateProjectionMatrix()
+  renderer.setSize(SIZES.width!, SIZES.height!)
+})
+
+// Scene
+const scene = new three.Scene()
+
+// Geometry
+const boxGeometry = new three.BoxGeometry(1, 1, 1,)
+const boxMaterial = new three.MeshBasicMaterial({ color: 0xff0000 })
+const boxMesh = new three.Mesh(boxGeometry, boxMaterial)
+scene.add(boxMesh)
+
+// Camera
+const perspectiveCam = new three.PerspectiveCamera(75, SIZES.width!/SIZES.height!)
+perspectiveCam.position.z = 5
+scene.add(perspectiveCam)
+
+
+// Render
+const canvas = document.createElement("canvas")
+document.body.prepend(canvas)
+
+const orbitControl = new OrbitControls(perspectiveCam, canvas)
+
+const renderer = new three.WebGLRenderer({ canvas, antialias: true })
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.setSize(SIZES.width!, SIZES.height!)
+
+const render = () => {
+  orbitControl.update()
+  renderer.render(scene, perspectiveCam)
+  window.requestAnimationFrame(render)
+}
+
+window.requestAnimationFrame(render)
