@@ -13,13 +13,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: black;
 }
-#loading .progress {
+
+.progress {
   margin: 1.5em;
   border: 1px solid white;
   width: 50vw;
 }
-#loading .progressbar {
+
+.progressbar {
   margin: 2px;
   background: white;
   height: 1em;
