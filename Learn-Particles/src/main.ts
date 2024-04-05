@@ -106,6 +106,8 @@ particleMat.alphaMap = selectedTexture
 particleMat.depthWrite = false
 particleMat.vertexColors = true
 particleMat.blending = three.AdditiveBlending
+particleMat.map = particlesTexture.get(selectedTexture)!
+particleMat.alphaMap = particlesTexture.get(selectedTexture)!
 
 // Points
 const particles = new three.Points(particleGeo, particleMat)
@@ -120,6 +122,7 @@ particlesFolder.addColor(properties.pointMaterial, "color")
  * Camera
  */ 
 const camera = new three.PerspectiveCamera(75, sizes.width!/sizes.height!, 0.1, 1000000)
+
 camera.position.set(0, -6, 6)
 scene.add(camera)
 
@@ -154,6 +157,7 @@ const render = () => {
     particleGeo.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x)
   }
   particleGeo.attributes.position.needsUpdate = true
+
 
   orbitControls.update()
   renderer.render(scene, camera)
