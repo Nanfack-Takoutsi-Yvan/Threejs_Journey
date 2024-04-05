@@ -1,10 +1,9 @@
 import './style.css'
 import GUI from 'lil-gui'
 import * as three from "three"
-import textures from './assets/textures'
 import loadTexture from './utils/textureLoader'
 import { OrbitControls } from 'three/examples/jsm/Addons.js'
-import { getViewportDimensions } from './utils/responsiveness'
+import { getViewportDimensions } from './utils/responsivenes'
 
 /**
  * Debug controls
@@ -28,12 +27,12 @@ const properties = {
  * Textures
  */
 // Particles
-type TextureKeys = keyof typeof textures["particles"]
-const particlesTexture = new Map<TextureKeys, three.Texture>()
-Object.keys(textures.particles).forEach((value) => {
-  const key = value as TextureKeys
-  particlesTexture.set(key, loadTexture(textures.particles[key]))
-})
+// type TextureKeys = keyof typeof textures["particles"]
+// const particlesTexture = new Map<TextureKeys, three.Texture>()
+// Object.keys(textures.particles).forEach((value) => {
+//   const key = value as TextureKeys
+//   particlesTexture.set(key, loadTexture(textures.particles[key]))
+// })
 
 /**
  * Responsiveness
@@ -71,50 +70,10 @@ window.document.body.prepend(canvas)
  * Particles
  */
 // Geometry
-const particleGeo = new three.BufferGeometry()
-const count = 5000
-const total_count = count * 3
-
-const positions = new Float32Array(total_count)
-const color = new Float32Array(total_count)
-
-for (let i = 0; i <= total_count; i++){
-  positions[i] = (Math.random() - 0.5) * 10
-  color[i] = Math.random()
-}
-
-particleGeo.setAttribute(
-  "position", 
-  new three.BufferAttribute(positions, 3)
-)
-particleGeo.setAttribute(
-  "color", 
-  new three.BufferAttribute(color, 3)
-)
 
 // Material
-const particleMat = new three.PointsMaterial()
-particleMat.size = .1
-particleMat.color = new three.Color(properties.pointMaterial.color)
-particleMat.sizeAttenuation = true
-particleMat.transparent = true
-const selectedTexture = particlesTexture.get("eighth")!
-// particleMat.map = selectedTexture
-particleMat.alphaMap = selectedTexture
-// particleMat.alphaTest = 0.001
-// particleMat.depthTest = false
-particleMat.depthWrite = false
-particleMat.vertexColors = true
-particleMat.blending = three.AdditiveBlending
 
 // Points
-const particles = new three.Points(particleGeo, particleMat)
-scene.add(particles)
-
-const particlesFolder = gui.addFolder("Particles")
-particlesFolder.addColor(properties.pointMaterial, "color")
-  .name("Particles Color")
-  .onChange(() => particleMat.color = new three.Color(properties.pointMaterial.color))
 
 /**
  * Camera
@@ -148,13 +107,6 @@ renderer.shadowMap.enabled = true
 
 const render = () => {
   const elapsedTime = clock.getElapsedTime()
-
-  for(let i = 0; i < count; i++){
-    const i3 = i * 3
-    const x = particleGeo.attributes.position.array[i3]
-    particleGeo.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x)
-  }
-  particleGeo.attributes.position.needsUpdate = true
 
 
   orbitControls.update()
