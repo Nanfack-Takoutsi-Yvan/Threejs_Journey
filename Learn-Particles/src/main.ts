@@ -76,13 +76,20 @@ const count = 5000
 const total_count = count * 3
 
 const positions = new Float32Array(total_count)
+const color = new Float32Array(total_count)
+
 for (let i = 0; i <= total_count; i++){
   positions[i] = (Math.random() - 0.5) * 10
+  color[i] = Math.random()
 }
 
 particleGeo.setAttribute(
   "position", 
   new three.BufferAttribute(positions, 3)
+)
+particleGeo.setAttribute(
+  "color", 
+  new three.BufferAttribute(color, 3)
 )
 
 // Material
@@ -91,8 +98,14 @@ particleMat.size = .1
 particleMat.color = new three.Color(properties.pointMaterial.color)
 particleMat.sizeAttenuation = true
 particleMat.transparent = true
-particleMat.map = particlesTexture.get("first")!
-particleMat.alphaMap = particlesTexture.get("first")!
+const selectedTexture = particlesTexture.get("eighth")!
+// particleMat.map = selectedTexture
+particleMat.alphaMap = selectedTexture
+// particleMat.alphaTest = 0.001
+// particleMat.depthTest = false
+particleMat.depthWrite = false
+particleMat.vertexColors = true
+particleMat.blending = three.AdditiveBlending
 
 // Points
 const particles = new three.Points(particleGeo, particleMat)
@@ -106,7 +119,7 @@ particlesFolder.addColor(properties.pointMaterial, "color")
 /**
  * Camera
  */ 
-const camera = new three.PerspectiveCamera(75, sizes.width!/sizes.height!)
+const camera = new three.PerspectiveCamera(75, sizes.width!/sizes.height!, 0.1, 1000000)
 camera.position.set(0, -6, 6)
 scene.add(camera)
 
@@ -135,6 +148,12 @@ renderer.shadowMap.enabled = true
 const render = () => {
   const elapsedTime = clock.getElapsedTime()
 
+  for(let i = 0; i < count; i++){
+    const i3 = i * 3
+    const x = particleGeo.attributes.position.array[i3]
+    particleGeo.attributes.position.array[i3 + 1] = Math.sin(elapsedTime + x)
+  }
+  particleGeo.attributes.position.needsUpdate = true
 
   orbitControls.update()
   renderer.render(scene, camera)
