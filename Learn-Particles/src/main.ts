@@ -106,8 +106,6 @@ particleMat.alphaMap = selectedTexture
 particleMat.depthWrite = false
 particleMat.vertexColors = true
 particleMat.blending = three.AdditiveBlending
-particleMat.map = particlesTexture.get(selectedTexture)!
-particleMat.alphaMap = particlesTexture.get(selectedTexture)!
 
 // Points
 const particles = new three.Points(particleGeo, particleMat)
